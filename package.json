@@ -1,0 +1,29 @@
+{
+  "name": "smart-locator",
+  "version": "1.0.1",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilovewebcouk/smart_locator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilovewebcouk/smart_locator/issues"
+  },
+  "homepage": "https://github.com/ilovewebcouk/smart_locator#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^22.2.0"
+  }
+}
