@@ -84,7 +84,7 @@ async function initMap() {
     });
 
     // Inside your initMap (make it async):
-    const res     = await fetch('https://smart-locator-university.netlify.app/.netlify/functions/locations'
+    const res     = await fetch('https://smart-locator-university.netlify.app/.netlify/functions?type=university'
     );
     const geojson  = await res.json();
     map.data.addGeoJson(geojson);
@@ -92,7 +92,7 @@ async function initMap() {
     // 3. Style each feature’s marker icon by category (with fallback)
     map.data.setStyle(feature => ({
         icon: {
-            url: `https://smart-locator-university.netlify.app/img/icon_${feature.getProperty('category') || 'default'}.png`,
+            url: `https://smart-locator-university.netlify.app/img/icon_University.png`,
             scaledSize: new google.maps.Size(50, 60),
         },
         // ensure the feature responds to clicks
@@ -117,9 +117,7 @@ async function initMap() {
         const detailsUrl = `https://smartdogtraining.com/university/venues/${slug}`
 
         // pick the logo
-        const logoUrl = category === 'Trainer'
-            ? 'https://smart-locator.netlify.app/img/logo_Trainer.svg'
-            : 'https://smart-locator.netlify.app/img/logo_University.svg';
+        const logoUrl = 'https://smart-locator-university.netlify.app/img/logo_University.svg';
 
         // Build header + body
         const content = `

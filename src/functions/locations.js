@@ -15,9 +15,28 @@ exports.handler = async function(event, context) {
         };
     }
 
+    // Declare colletion IDs
+    const COLLECTIONS = {
+        trainer:    '6860ecbf9d22681e60ff5fed',
+        university: '6827594dfcf4f6f6756d0ac7',
+    };
+
+    // Determine which collection to fetch
+    const params       = event.queryStringParameters || {};
+    const typeParam    = (params.type || '').toLowerCase();
+    const collectionId = COLLECTIONS[typeParam];
+
+    if (!collectionId) {
+        return {
+            statusCode: 400,
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            body: JSON.stringify({ error: 'Missing or invalid type param (trainer|university)' }),
+        };
+    }
+
     // 2) On real GET, fetch & return GeoJSON
     const API_URL =
-        'https://api.webflow.com/v2/collections/6827594dfcf4f6f6756d0ac7/items/live?offset=0&limit=100';
+        `https://api.webflow.com/v2/collections/${collectionId}/items/live?offset=0&limit=100`;
     const API_TOKEN = '46274ed627db4d7af9cd40fded3f729886824b6918b58b663b735a02fbeca748';
 
     try {
@@ -45,7 +64,6 @@ exports.handler = async function(event, context) {
                         excerpt:  item.fieldData['location-excerpt'],
                         infoHtml: item.fieldData.information,
                         image:    item.fieldData['main-image']?.url || '',
-                        category: item.fieldData['category-2'],
                         slug:     item.fieldData.slug,
                     },
                     geometry: { type: 'Point', coordinates: [lng, lat] },
