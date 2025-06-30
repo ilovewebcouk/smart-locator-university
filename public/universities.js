@@ -84,7 +84,7 @@ async function initMap() {
     });
 
     // Inside your initMap (make it async):
-    const res     = await fetch('https://smart-locator-university.netlify.app/.netlify/functions?type=university'
+    const res     = await fetch('https://smart-locator-university.netlify.app/.netlify/functions/locations?type=university'
     );
     const geojson  = await res.json();
     map.data.addGeoJson(geojson);
