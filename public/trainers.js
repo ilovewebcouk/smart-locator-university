@@ -109,7 +109,6 @@ async function initMap() {
         const excerpt  = event.feature.getProperty('excerpt');
         const address  = event.feature.getProperty('address');
         const imageUrl = event.feature.getProperty('image');
-        const category = event.feature.getProperty('category');
         const slug     = event.feature.getProperty('slug')
 
         // Build slug path
