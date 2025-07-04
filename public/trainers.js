@@ -106,7 +106,7 @@ async function initMap() {
     map.data.addListener('click', (event) => {
         // grab props...
         const name     = event.feature.getProperty('name');
-        const excerpt  = event.feature.getProperty('excerpt-2');
+        const excerpt  = event.feature.getProperty('excerpt');
         const address  = event.feature.getProperty('address');
         const imageUrl = event.feature.getProperty('image');
         const category = event.feature.getProperty('category');
