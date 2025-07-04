@@ -147,7 +147,7 @@ async function initMap() {
         >&times;</div>
       </div>
 
-      <!-- Link to venue page -->
+      <!-- Link to venue page  -->
       <a href="${detailsUrl}">
         <!-- Body text -->
         <h2 style="margin:0 0 6px; font-size:18px;">${name}</h2>
