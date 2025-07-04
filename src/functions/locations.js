@@ -61,7 +61,7 @@ exports.handler = async function(event, context) {
                         storeid:  item.id,
                         name:     item.fieldData.name,
                         address:  item.fieldData.address,
-                        excerpt:  item.fieldData['location-excerpt'],
+                        excerpt:  item.fieldData['excerpt'],
                         infoHtml: item.fieldData.information,
                         image:    item.fieldData['main-image']?.url || '',
                         slug:     item.fieldData.slug,
