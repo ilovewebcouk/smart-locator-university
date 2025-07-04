@@ -131,7 +131,7 @@ async function initMap() {
         <!-- Logo on left -->
         <img
           src="${logoUrl}"
-          alt="${category} logo"
+          alt="trainer logo"
           style="width:150px; height:auto; object-fit:contain;"
         >
         <!-- Custom close button on right -->
