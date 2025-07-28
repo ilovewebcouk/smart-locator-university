@@ -78,7 +78,7 @@ const mapStyle = [{
 async function initMap() {
     // 1. Create the map
     const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 7,
+        zoom: 5,
         center: { lat: 52.632469, lng: -1.689423 },
         styles: mapStyle,
     });
