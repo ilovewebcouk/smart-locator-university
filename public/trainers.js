@@ -213,7 +213,7 @@ async function initMap() {
         map.setCenter(origin);
         map.setZoom(9);
         originMarker.setPosition(origin);
-        originMarker.setVisible(false);
+        originMarker.setVisible(true);
 
         const ranked = await calculateDistances(map.data, origin);
         //showStoresList(map.data, ranked);
