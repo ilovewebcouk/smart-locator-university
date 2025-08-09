@@ -92,7 +92,7 @@ async function initMap() {
     // 3. Style each feature’s marker icon by category (with fallback)
     map.data.setStyle(feature => ({
         icon: {
-            url: `https://smart-locator-university.netlify.app/img/icon_Trainer.png`,
+            url: `https://smart-locator-university.netlify.app/img/icon_trainer.png`,
             scaledSize: new google.maps.Size(50, 60),
         },
         // ensure the feature responds to clicks
@@ -116,7 +116,7 @@ async function initMap() {
         const detailsUrl = `https://smartdogtraining.com/trainers/${slug}`
 
         // pick the logo
-        const logoUrl = 'https://smart-locator-university.netlify.app/img/logo_Trainer.svg';
+        const logoUrl = 'https://smart-locator-university.netlify.app/img/smart_dog_training.svg';
 
         // Build header + body
         const content = `
