@@ -13,14 +13,14 @@ const mapStyle = [{
         'featureType': 'landscape',
         'elementType': 'all',
         'stylers': [{
-            'color': '#efe9e1',
+            'color': '#f8f9fa',
         }],
     },
     {
         'featureType': 'poi.park',
         'elementType': 'geometry',
         'stylers': [{
-            'color': '#d2e6bf',
+            'color': '#dce8dd',
         }],
     },
     {
@@ -45,14 +45,14 @@ const mapStyle = [{
         'featureType': 'road.highway',
         'elementType': 'geometry',
         'stylers': [{
-            'color': '#fea560',
+            'color': '#f4a261',
         }],
     },
     {
         'featureType': 'road.arterial',
         'elementType': 'geometry',
         'stylers': [{
-            'color': '#f2d267',
+            'color': '#ffd28f',
         }],
     },
     {
@@ -69,7 +69,7 @@ const mapStyle = [{
             'visibility': 'on',
         },
             {
-                'color': '#75cfef',
+                'color': '#b6d8e4',
             },
         ],
     },
