@@ -78,8 +78,8 @@ const mapStyle = [{
 async function initMap() {
     // 1. Create the map
     const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 7,
-        center: { lat: 54.5, lng: -3.5 },
+        zoom: 6,
+        center: { lat: 52.4, lng: -1.8 },
         styles: mapStyle,
     });
 
