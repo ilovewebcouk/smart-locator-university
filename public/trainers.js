@@ -35,12 +35,6 @@ style.textContent = `
 
 .trainer-card__services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .svc-tag { font-size: 12px; padding: 4px 8px; border: 1px solid #e6e6e6; border-radius: 999px; background: #fafafa; white-space: nowrap; }
-
-.trainer-card__btn {
-  display: inline-block; font-size: 14px; padding: 10px 12px; border-radius: 10px;
-  background: #111; color: #fff; text-decoration: none;
-}
-.trainer-card__btn:hover { opacity: .9; }
 `;
 document.head.appendChild(style);
 
@@ -132,8 +126,10 @@ function renderStoreList(features, distancesById = null) {
         ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
       </div>
       <div class="trainer-card__body">
+      <div class="display-inlineflex">
         <h3 class="heading-style-h5">${r.name}</h3><div class="text-style-tagline">SMDT</div>
-        <div class="text-size-medium">📍 ${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
+        </div>
+        <div class="text-size-medium">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
         <div class="trainer-card__services">${tagsHtml}</div>
         <a class="button is-icon max-width-full w-inline-block" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
       </div>
