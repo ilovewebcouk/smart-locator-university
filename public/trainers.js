@@ -31,6 +31,36 @@ style.textContent = `
   aspect-ratio: 1;
 }
 
+.trainer-name-wrap {
+  display: inline-flex;
+  align-items: flex-end;
+  column-gap: var(--_rems---rems--8px);
+  row-gap: var(--_rems---rems--8px);
+}
+
+.trainer-title {
+  justify-content: center;
+  align-items: center;
+  line-height: 0.8em;
+  font-weight: 400;
+  letter-spacing: 3px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.trainer_name {
+  font-family: Rooftop;
+  font-size: 1.5rem;
+  line-height: 0.8;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 767px) {
+  .trainer_name {
+    font-size: 1.25rem;
+  }
+}
+
 .trainer-card__body { padding: 24px; }
 
 .trainer-card__services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
@@ -126,8 +156,8 @@ function renderStoreList(features, distancesById = null) {
         ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
       </div>
       <div class="trainer-card__body">
-      <div class="display-inlineflex">
-        <h3 class="heading-style-h5">${r.name}</h3><div class="text-style-tagline">SMDT</div>
+      <div class="trainer-name-wrap">
+        <h3 class="trainer-name">${r.name}</h3><div class="trainer-title">SMDT</div>
         </div>
         <div class="text-size-medium">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
         <div class="trainer-card__services">${tagsHtml}</div>
