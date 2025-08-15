@@ -91,17 +91,16 @@ function renderStoreList(features, distancesById = null) {
             <div class="trainer-bottom">
                 <div class="trainer-info">
                     <div class="margin-bottom margin-xxsmall">
-                    <div class="text-style-tagline">${r.town || ''}</div>
-                    </div>
-                    <div class="card_location_wrap">
-                        <div>📍</div>
-                        <div>${r.address || ''}</div>
+                         <div class="text-style-tagline">${r.town || ''}</div>
                     </div>
                     <div class="margin-bottom margin-xxsmall">
                         <div class="trainer-name-wrap"><h3 class="trainer_name">${r.name}</h3>
                             <div class="trainer-title">SMDT</div>
                         </div>
                     </div>
+                        <div class="card_location_wrap">
+                            <div>📍</div><div>${r.address || ''}</div>
+                        </div>       
                 </div>
                 <div class="margin-top margin-small">
                     <div class="button-group">
