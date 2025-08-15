@@ -308,29 +308,4 @@ function showStoresList(data, stores) {
     });
 }
 
-
-    // Clear the previous details
-    while (panel.lastChild) {
-        panel.removeChild(panel.lastChild);
-    }
-
-    stores.forEach((store) => {
-        // Add store details with text formatting
-        const name = document.createElement('p');
-        name.classList.add('place');
-        const currentStore = data.getFeatureById(store.storeid);
-        name.textContent = currentStore.getProperty('name');
-        panel.appendChild(name);
-        const distanceText = document.createElement('p');
-        distanceText.classList.add('distanceText');
-        distanceText.textContent = store.distanceText;
-        panel.appendChild(distanceText);
-    });
-
-    // Open the panel
-    panel.classList.add('open');
-
-    return;
-}
-
 window.initMap = initMap;
