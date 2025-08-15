@@ -1,18 +1,3 @@
-// Add custom CSS
-const style = document.createElement('style');
-style.textContent = `
-  /* Container for the trainer list */
-#store-list {
-    grid-column-gap: 2rem;
-    grid-row-gap: 2rem;
-    grid-template-rows: auto;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-auto-columns: 1fr;
-    display: grid;
-}
-`;
-document.head.appendChild(style);
-
 /* ===== Map style (unchanged) ===== */
 const mapStyle = [
     { featureType: 'administrative', elementType: 'all', stylers: [{ visibility: 'on' }, { lightness: 33 }] },
@@ -54,7 +39,7 @@ function buildInfoWindowContent({ name, excerpt, address, imageUrl, slug }) {
 
 /* Render the grid of trainer cards. If distancesById provided, sorts and shows distance */
 function renderStoreList(features, distancesById = null) {
-    const container = document.getElementById('store-list');
+    const container = document.querySelector('.trainer-collection-list');
     if (!container) return;
 
     const rows = features.map(f => {
