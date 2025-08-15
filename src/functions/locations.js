@@ -115,7 +115,7 @@ exports.handler = async function(event) {
     }
 
     // Security: use env var
-    const API_TOKEN = '46274ed627db4d7af9cd40fded3f729886824b6918b58b663b735a02fbeca748';;
+    const API_TOKEN = '46274ed627db4d7af9cd40fded3f729886824b6918b58b663b735a02fbeca748';
     if (!API_TOKEN) {
         return {
             statusCode: 500,
