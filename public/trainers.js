@@ -109,12 +109,6 @@ async function initMap() {
     const geojson = await res.json();
     map.data.addGeoJson(geojson);
 
-    // Ensure each feature has an id
-    map.data.forEach(f => {
-        const sid = f.getProperty('storeid');
-        if (sid) f.setId(sid);
-    });
-
     // Marker style
     map.data.setStyle(() => ({
         icon: {
