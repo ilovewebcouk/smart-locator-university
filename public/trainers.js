@@ -216,7 +216,7 @@ async function initMap() {
         originMarker.setVisible(true);
 
         const ranked = await calculateDistances(map.data, origin);
-        //showStoresList(map.data, ranked);
+        showStoresList(map.data, ranked);
     });
 }
 
@@ -280,24 +280,33 @@ async function calculateDistances(data, origin) {
 }
 
 function showStoresList(data, stores) {
-    if (stores.length == 0) {
-        console.log('empty stores');
+    const container = document.getElementById('store-list');
+    if (!container) return;
+
+    // Clear previous
+    container.innerHTML = '';
+
+    if (stores.length === 0) {
+        container.innerHTML = '<p>No locations found.</p>';
         return;
     }
 
-    let panel = document.createElement('div');
-    // If the panel already exists, use it. Else, create it and add to the page.
-    if (document.getElementById('panel')) {
-        panel = document.getElementById('panel');
-        // If panel is already open, close it
-        if (panel.classList.contains('open')) {
-            panel.classList.remove('open');
-        }
-    } else {
-        panel.setAttribute('id', 'panel');
-        const body = document.body;
-        body.insertBefore(panel, body.childNodes[0]);
-    }
+    // Build each store item
+    stores.forEach((store) => {
+        const currentStore = data.getFeatureById(store.storeid);
+        const name = currentStore.getProperty('name');
+        const distanceText = store.distanceText;
+
+        const item = document.createElement('div');
+        item.className = 'store-item';
+        item.innerHTML = `
+            <strong>${name}</strong><br>
+            <span>${distanceText} away</span>
+        `;
+
+        container.appendChild(item);
+    });
+}
 
 
     // Clear the previous details
