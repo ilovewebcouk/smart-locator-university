@@ -10,61 +10,6 @@ style.textContent = `
     grid-auto-columns: 1fr;
     display: grid;
 }
-
-.trainer-card {
-    border-radius: var(--_radius---large);
-    flex-direction: column;
-    grid-template-rows: auto;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-columns: 1fr;
-    align-items: stretch;
-    display: flex;
-    overflow: hidden;
-}
-
-.trainer-card__media img,
-.trainer-card__placeholder {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #f4f6f8;
-  aspect-ratio: 1;
-}
-
-.trainer-name-wrap {
-  display: inline-flex;
-  align-items: flex-end;
-  column-gap: var(--_rems---rems--8px);
-  row-gap: var(--_rems---rems--8px);
-}
-
-.trainer-title {
-  justify-content: center;
-  align-items: center;
-  line-height: 0.8em;
-  font-weight: 400;
-  letter-spacing: 3px;
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.trainer-name {
-  font-family: Rooftop;
-  font-size: 1.5rem;
-  line-height: 0.8;
-  font-weight: 400;
-}
-
-@media screen and (max-width: 767px) {
-  .trainer_name {
-    font-size: 1.25rem;
-  }
-}
-
-.trainer-card__body { padding: 24px; }
-
-.trainer-card__services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.svc-tag { font-size: 12px; padding: 4px 8px; border: 1px solid #e6e6e6; border-radius: 999px; background: #fafafa; white-space: nowrap; }
 `;
 document.head.appendChild(style);
 
@@ -134,20 +79,40 @@ function renderStoreList(features, distancesById = null) {
     container.innerHTML = '';
     rows.forEach(r => {
         const card = document.createElement('div');
-        card.className = 'trainer-card shadow-xlarge';
-        card.innerHTML = `
-      <div class="trainer-card__media">
-        ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
-      </div>
-      <div class="trainer-card__body">
-      <div class="trainer-name-wrap">
-        <h3 class="trainer-name">${r.name}</h3><div class="trainer-title">SMDT</div>
-        </div>
-        <div class="text-size-medium">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
-        
-        <a class="button is-icon max-width-full w-inline-block" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
-      </div>
-    `;
+
+            card.className = 'trainer-card shadow-xlarge';
+            card.innerHTML = `
+            <div class="trainer-top">
+              ${r.image
+                ? `<img src="${r.image}" alt="${r.name}" loading="lazy" class="trainer-image">`
+                : `<div class="trainer-card__placeholder"></div>`}
+            </div>
+            <div class="trainer-bottom">
+                <div class="trainer-info">
+                    <div class="margin-bottom margin-xxsmall">
+                        <div class="text-style-tagline">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
+                    </div>
+                    <div class="margin-bottom margin-xxsmall">
+                        <div class="trainer-name-wrap"><h3 class="trainer_name">${r.name}</h3>
+                            <div class="trainer-title">SMDT</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="margin-top margin-small">
+                    <div class="button-group">
+                        <a data-w-id="9e7c5330-8ec0-ef63-6e62-0181fb9b7027" href="https://smartdogtraining.com/trainers/${r.slug}" class="button is-icon max-width-full w-inline-block">
+                            <div>View Trainer</div>
+                            <div style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg); transform-style: preserve-3d;" class="icon-embed-xxsmall w-embed">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                    <path fill="currentColor" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path>
+                                </svg>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                ${r.distanceText ? `<div class="text-size-small distance-tag">${r.distanceText} away</div>` : ``}
+            </div>
+        `;
         container.appendChild(card);
     });
 }
