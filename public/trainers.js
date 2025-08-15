@@ -132,8 +132,8 @@ function renderStoreList(features, distancesById = null) {
         ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
       </div>
       <div class="trainer-card__body">
-        <h3 class="heading-style-h5">${r.name}</h3>
-        <div class="text-size-regular">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
+        <h3 class="heading-style-h5">${r.name}</h3><div class="text-style-tagline">SMDT</div>
+        <div class="text-size-medium">📍 ${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
         <div class="trainer-card__services">${tagsHtml}</div>
         <a class="button is-icon max-width-full w-inline-block" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
       </div>
