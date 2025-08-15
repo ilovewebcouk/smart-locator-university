@@ -61,13 +61,14 @@ function renderStoreList(features, distancesById = null) {
         const id       = f.getProperty('storeid');
         const name     = f.getProperty('name');
         const town     = f.getProperty('town') || '';
+        const address  = f.getProperty('address') || '';
         const slug     = f.getProperty('slug');
         const image    = f.getProperty('profile') || f.getProperty('image') || '';
         // const services = f.getProperty('services') || [];
         const dObj     = distancesById ? distancesById[id] : null;
 
         return {
-            id, name, town, slug, image,
+            id, name, town, address, slug, image,
             distanceText: dObj?.distanceText || null,
             distanceVal:  dObj?.distanceVal  ?? Number.POSITIVE_INFINITY,
             feature: f
@@ -90,7 +91,11 @@ function renderStoreList(features, distancesById = null) {
             <div class="trainer-bottom">
                 <div class="trainer-info">
                     <div class="margin-bottom margin-xxsmall">
-                        <div class="text-style-tagline">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
+                    <div class="text-style-tagline">${r.town || ''}</div>
+                    </div>
+                    <div class="card_location_wrap">
+                        <div>📍</div>
+                        <div>${r.address || ''}</div>
                     </div>
                     <div class="margin-bottom margin-xxsmall">
                         <div class="trainer-name-wrap"><h3 class="trainer_name">${r.name}</h3>
