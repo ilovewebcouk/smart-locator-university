@@ -1,3 +1,46 @@
+// Add custom CSS
+const style = document.createElement('style');
+style.textContent = `
+  /* Container for the trainer list */
+#store-list {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  margin-top: 16px;
+}
+
+.trainer-card {
+  border: 1px solid #eee;
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 160px auto;
+}
+
+.trainer-card__media img,
+.trainer-card__placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #f4f6f8;
+}
+
+.trainer-card__body { padding: 14px; }
+.trainer-card__title { margin: 0 0 6px; font-size: 18px; line-height: 1.2; }
+.trainer-card__meta { font-size: 13px; color: #666; margin-bottom: 10px; }
+
+.trainer-card__services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.svc-tag { font-size: 12px; padding: 4px 8px; border: 1px solid #e6e6e6; border-radius: 999px; background: #fafafa; white-space: nowrap; }
+
+.trainer-card__btn {
+  display: inline-block; font-size: 14px; padding: 10px 12px; border-radius: 10px;
+  background: #111; color: #fff; text-decoration: none;
+}
+.trainer-card__btn:hover { opacity: .9; }
+`;
+document.head.appendChild(style);
+
 /* ===== Map style (unchanged) ===== */
 const mapStyle = [
     { featureType: 'administrative', elementType: 'all', stylers: [{ visibility: 'on' }, { lightness: 33 }] },
