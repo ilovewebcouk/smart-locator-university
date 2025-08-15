@@ -1,213 +1,175 @@
-const mapStyle = [{
-    'featureType': 'administrative',
-    'elementType': 'all',
-    'stylers': [{
-        'visibility': 'on',
-    },
-        {
-            'lightness': 33,
-        },
-    ],
-},
-    {
-        'featureType': 'landscape',
-        'elementType': 'all',
-        'stylers': [{
-            'color': '#f8f9fa',
-        }],
-    },
-    {
-        'featureType': 'poi.park',
-        'elementType': 'geometry',
-        'stylers': [{
-            'color': '#dce8dd',
-        }],
-    },
-    {
-        'featureType': 'poi.park',
-        'elementType': 'labels',
-        'stylers': [{
-            'visibility': 'on',
-        },
-            {
-                'lightness': 20,
-            },
-        ],
-    },
-    {
-        'featureType': 'road',
-        'elementType': 'all',
-        'stylers': [{
-            'lightness': 20,
-        }],
-    },
-    {
-        'featureType': 'road.highway',
-        'elementType': 'geometry',
-        'stylers': [{
-            'color': '#f4a261',
-        }],
-    },
-    {
-        'featureType': 'road.arterial',
-        'elementType': 'geometry',
-        'stylers': [{
-            'color': '#ffd28f',
-        }],
-    },
-    {
-        'featureType': 'road.local',
-        'elementType': 'geometry',
-        'stylers': [{
-            'color': '#ffffff',
-        }],
-    },
-    {
-        'featureType': 'water',
-        'elementType': 'all',
-        'stylers': [{
-            'visibility': 'on',
-        },
-            {
-                'color': '#b6d8ef',
-            },
-        ],
-    },
+/* ===== Map style (unchanged) ===== */
+const mapStyle = [
+    { featureType: 'administrative', elementType: 'all', stylers: [{ visibility: 'on' }, { lightness: 33 }] },
+    { featureType: 'landscape', elementType: 'all', stylers: [{ color: '#f8f9fa' }] },
+    { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#dce8dd' }] },
+    { featureType: 'poi.park', elementType: 'labels', stylers: [{ visibility: 'on' }, { lightness: 20 }] },
+    { featureType: 'road', elementType: 'all', stylers: [{ lightness: 20 }] },
+    { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#f4a261' }] },
+    { featureType: 'road.arterial', elementType: 'geometry', stylers: [{ color: '#ffd28f' }] },
+    { featureType: 'road.local', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
+    { featureType: 'water', elementType: 'all', stylers: [{ visibility: 'on' }, { color: '#b6d8ef' }] },
 ];
 
+/* ===== Optional: service icons map (adjust URLs to your assets) ===== */
+const SERVICE_ICONS = {
+    'Obedience Training': '/icons/obedience.svg',
+    'Puppy Training': '/icons/puppy.svg',
+    'Service Dog Training': '/icons/service-dog.svg',
+    'Anxiety & Aggression': '/icons/behaviour.svg',
+    'Therapy Dog Training': '/icons/therapy.svg',
+    'Group Training': '/icons/group.svg',
+    'Protection Training': '/icons/protection.svg',
+};
+
+/* ===== Helpers ===== */
+function getAllFeaturesArray(mapData) {
+    const arr = [];
+    mapData.forEach(f => arr.push(f));
+    return arr;
+}
+
+function buildInfoWindowContent({ name, excerpt, address, imageUrl, slug }) {
+    const logoUrl = 'https://smart-locator-university.netlify.app/img/smart_dog_training.svg';
+    const detailsUrl = `https://smartdogtraining.com/trainers/${slug}`;
+    return `
+    <div style="max-width:300px; font-family:Arial, sans-serif;">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+        <img src="${logoUrl}" alt="trainer logo" style="width:150px;height:auto;object-fit:contain;">
+        <div id="iw-close-btn" style="font-size:30px;line-height:16px;cursor:pointer;user-select:none;color:#70757a;">&times;</div>
+      </div>
+      <a href="${detailsUrl}">
+        <h2 style="margin:0 0 6px;font-size:18px;">${name}</h2>
+        <p style="margin:0 0 8px;font-size:14px;color:#333;">${excerpt || ''}</p>
+        <p style="margin:0 0 12px;font-size:12px;color:#555;"><i>${address || ''}</i></p>
+        <hr style="border:none;border-top:1px solid #ddd;margin:0 0 8px;">
+        ${imageUrl ? `<img src="${imageUrl}" alt="${name}" style="width:100%;max-height:180px;object-fit:cover;">` : ''}
+      </a>
+    </div>`;
+}
+
+/* Render the grid of trainer cards. If distancesById provided, sorts and shows distance */
+function renderStoreList(features, distancesById = null) {
+    const container = document.getElementById('store-list');
+    if (!container) return;
+
+    const rows = features.map(f => {
+        const id       = f.getProperty('storeid');
+        const name     = f.getProperty('name');
+        const town     = f.getProperty('town') || '';
+        const slug     = f.getProperty('slug');
+        const image    = f.getProperty('profile') || f.getProperty('image') || '';
+        const services = f.getProperty('services') || [];
+        const dObj     = distancesById ? distancesById[id] : null;
+
+        return {
+            id, name, town, slug, image, services,
+            distanceText: dObj?.distanceText || null,
+            distanceVal:  dObj?.distanceVal  ?? Number.POSITIVE_INFINITY,
+            feature: f
+        };
+    });
+
+    if (distancesById) rows.sort((a, b) => a.distanceVal - b.distanceVal);
+
+    container.innerHTML = '';
+    rows.forEach(r => {
+        const tagsHtml = r.services.slice(0, 5).map(svc => {
+            const icon = SERVICE_ICONS[svc] ? `<img src="${SERVICE_ICONS[svc]}" alt="" width="14" height="14" style="vertical-align:middle;margin-right:6px">` : '';
+            return `<span class="svc-tag">${icon}${svc}</span>`;
+        }).join('');
+
+        const card = document.createElement('div');
+        card.className = 'trainer-card';
+        card.innerHTML = `
+      <div class="trainer-card__media">
+        ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
+      </div>
+      <div class="trainer-card__body">
+        <h3 class="trainer-card__title">${r.name}</h3>
+        <div class="trainer-card__meta">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
+        <div class="trainer-card__services">${tagsHtml}</div>
+        <a class="trainer-card__btn" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
+      </div>
+    `;
+        container.appendChild(card);
+    });
+}
+
+/* ===== Map init ===== */
 async function initMap() {
-    // 1. Create the map
     const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 7,
         center: { lat: 52.9, lng: -1.48 },
         styles: mapStyle,
     });
 
-    // Inside your initMap (make it async):
-    const res     = await fetch('https://smart-locator-university.netlify.app/.netlify/functions/locations?type=trainer'
-    );
-    const geojson  = await res.json();
+    // Load GeoJSON
+    const res = await fetch('https://smart-locator-university.netlify.app/.netlify/functions/locations?type=trainer');
+    const geojson = await res.json();
     map.data.addGeoJson(geojson);
 
-    // 3. Style each feature’s marker icon by category (with fallback)
-    map.data.setStyle(feature => ({
+    // Ensure each feature has an id
+    map.data.forEach(f => {
+        const sid = f.getProperty('storeid');
+        if (sid) f.setId(sid);
+    });
+
+    // Marker style
+    map.data.setStyle(() => ({
         icon: {
             url: `https://smart-locator-university.netlify.app/img/icon_trainer.png`,
             scaledSize: new google.maps.Size(50, 60),
         },
-        // ensure the feature responds to clicks
         clickable: true
     }));
 
-    // 4. InfoWindow instance (reused)
+    // Reusable info window
     const infoWindow = new google.maps.InfoWindow();
 
-    // Show the information for a venue when its marker is clicked.
+    // Click markers → show card
     map.data.addListener('click', (event) => {
-        // grab props...
-        const name     = event.feature.getProperty('name');
-        const excerpt  = event.feature.getProperty('excerpt');
-        const address  = event.feature.getProperty('address');
-        const imageUrl = event.feature.getProperty('image');
-        const slug     = event.feature.getProperty('slug')
+        const content = buildInfoWindowContent({
+            name:    event.feature.getProperty('name'),
+            excerpt: event.feature.getProperty('excerpt'),
+            address: event.feature.getProperty('address'),
+            imageUrl:event.feature.getProperty('image'),
+            slug:    event.feature.getProperty('slug'),
+        });
 
-        // Build slug path
-
-        const detailsUrl = `https://smartdogtraining.com/trainers/${slug}`
-
-        // pick the logo
-        const logoUrl = 'https://smart-locator-university.netlify.app/img/smart_dog_training.svg';
-
-        // Build header + body
-        const content = `
-      <div style="max-width:300px; font-family:Arial, sans-serif;">
-      <!-- Header flex -->
-      <div style="
-          display:flex;
-          justify-content:space-between;
-          align-items:start;
-          margin-bottom:8px;
-        ">
-        <!-- Logo on left -->
-        <img
-          src="${logoUrl}"
-          alt="trainer logo"
-          style="width:150px; height:auto; object-fit:contain;"
-        >
-        <!-- Custom close button on right -->
-        <div
-          id="iw-close-btn"
-          style="
-            font-size:30px;
-            line-height:16px;
-            cursor:pointer;
-            user-select:none;
-            color: #70757a;
-          "
-        >&times;</div>
-      </div>
-
-      <!-- Link to venue page  -->
-      <a href="${detailsUrl}">
-        <!-- Body text -->
-        <h2 style="margin:0 0 6px; font-size:18px;">${name}</h2>
-        <p style="margin:0 0 8px; font-size:14px; color:#333;">${excerpt}</p>
-        <p style="margin:0 0 12px; font-size:12px; color:#555;"><i>${address}</i></p>
-
-        <!-- Divider -->
-        <hr style="border:none; border-top:1px solid #ddd; margin:0 0 8px;">
-
-        <!-- Main image at bottom -->
-        <img
-        src="${imageUrl}"
-        alt="${name}"
-        style="width:100%; max-height:180px; object-fit:cover;"
-        >     
-      </a>
-      
-      
-     
-    </div>
-    `;
-
-        // Hide default close, then open with custom content
         infoWindow.setOptions({
             content,
             position: event.feature.getGeometry().get(),
             pixelOffset: new google.maps.Size(0, -30),
-            closeBoxURL: ''    // remove the Google “X”
+            closeBoxURL: ''
         });
         infoWindow.open(map);
 
-        // Attach click listener to your custom “X”
-        // Wait a tick so the DOM is in place
-        window.setTimeout(() => {
+        // attach close
+        setTimeout(() => {
             const btn = document.getElementById('iw-close-btn');
             if (btn) btn.onclick = () => infoWindow.close();
         }, 0);
     });
 
-    // Grab the input from your HTML (no more dynamic card)
+    // Autocomplete
     const input = document.getElementById('pac-input');
-
-// Initialize the autocomplete widget
     const autocomplete = new google.maps.places.Autocomplete(input, {
         types: ['address'],
         componentRestrictions: { country: 'gb' },
     });
     autocomplete.setFields(['geometry', 'name']);
 
-// Origin marker
     const originMarker = new google.maps.Marker({ map });
     originMarker.setVisible(false);
 
-// Listen for selection
+    // Initial list: show all trainers (unsorted)
+    renderStoreList(getAllFeaturesArray(map.data));
+
+    // On place selection: compute distances and re-render nearest-first
     autocomplete.addListener('place_changed', async () => {
         const place = autocomplete.getPlace();
-        if (!place.geometry) {
-            alert(`No address available for input: '${place.name}'`);
-            return;
-        }
+        if (!place.geometry) return;
 
         const origin = place.geometry.location;
         map.setCenter(origin);
@@ -216,96 +178,48 @@ async function initMap() {
         originMarker.setVisible(true);
 
         const ranked = await calculateDistances(map.data, origin);
-        showStoresList(map.data, ranked);
+        const byId = {};
+        ranked.forEach(r => { byId[r.storeid] = r; });
+
+        renderStoreList(getAllFeaturesArray(map.data), byId);
     });
 }
 
-
-// ... keep your existing calculateDistances() and showStoresList() functions unchanged,
-// since they already use storeid and map.data correctly.
-
+/* ===== Distance calc (unchanged) ===== */
 async function calculateDistances(data, origin) {
     const stores = [];
     const destinations = [];
 
-    // Build parallel arrays for the store IDs and destinations
     data.forEach((store) => {
         const storeNum = store.getProperty('storeid');
         const storeLoc = store.getGeometry().get();
-
         stores.push(storeNum);
         destinations.push(storeLoc);
     });
 
-    // Retrieve the distances of each store from the origin
-    // The returned list will be in the same order as the destinations list
     const service = new google.maps.DistanceMatrixService();
-    const getDistanceMatrix =
-        (service, parameters) => new Promise((resolve, reject) => {
-            service.getDistanceMatrix(parameters, (response, status) => {
-                if (status != google.maps.DistanceMatrixStatus.OK) {
-                    reject(response);
-                } else {
-                    const distances = [];
-                    const results = response.rows[0].elements;
-                    for (let j = 0; j < results.length; j++) {
-                        const element = results[j];
-                        const distanceText = element.distance.text;
-                        const distanceVal = element.distance.value;
-                        const distanceObject = {
-                            storeid: stores[j],
-                            distanceText: distanceText,
-                            distanceVal: distanceVal,
-                        };
-                        distances.push(distanceObject);
-                    }
-
-                    resolve(distances);
-                }
-            });
-        });
-
-    const distancesList = await getDistanceMatrix(service, {
-        origins: [origin],
-        destinations: destinations,
-        travelMode: 'DRIVING',
-        unitSystem: google.maps.UnitSystem.IMPERIAL,
-    });
-
-    distancesList.sort((first, second) => {
-        return first.distanceVal - second.distanceVal;
+    const distancesList = await new Promise((resolve, reject) => {
+        service.getDistanceMatrix(
+            {
+                origins: [origin],
+                destinations,
+                travelMode: 'DRIVING',
+                unitSystem: google.maps.UnitSystem.IMPERIAL, // switch to METRIC for km
+            },
+            (response, status) => {
+                if (status !== google.maps.DistanceMatrixStatus.OK) return reject(response);
+                const distances = response.rows[0].elements.map((el, j) => ({
+                    storeid: stores[j],
+                    distanceText: el.distance.text,
+                    distanceVal: el.distance.value,
+                }));
+                resolve(distances.sort((a, b) => a.distanceVal - b.distanceVal));
+            }
+        );
     });
 
     return distancesList;
 }
 
-function showStoresList(data, stores) {
-    const container = document.getElementById('store-list');
-    if (!container) return;
-
-    // Clear previous
-    container.innerHTML = '';
-
-    if (stores.length === 0) {
-        container.innerHTML = '<p>No locations found.</p>';
-        return;
-    }
-
-    // Build each store item
-    stores.forEach((store) => {
-        const currentStore = data.getFeatureById(store.storeid);
-        const name = currentStore.getProperty('name');
-        const distanceText = store.distanceText;
-
-        const item = document.createElement('div');
-        item.className = 'store-item';
-        item.innerHTML = `
-            <strong>${name}</strong><br>
-            <span>${distanceText} away</span>
-        `;
-
-        container.appendChild(item);
-    });
-}
-
+/* ===== Expose init ===== */
 window.initMap = initMap;
