@@ -81,17 +81,6 @@ const mapStyle = [
     { featureType: 'water', elementType: 'all', stylers: [{ visibility: 'on' }, { color: '#b6d8ef' }] },
 ];
 
-/* ===== Optional: service icons map (adjust URLs to your assets) ===== */
-const SERVICE_ICONS = {
-    'Obedience Training': '/icons/obedience.svg',
-    'Puppy Training': '/icons/puppy.svg',
-    'Service Dog Training': '/icons/service-dog.svg',
-    'Anxiety & Aggression': '/icons/behaviour.svg',
-    'Therapy Dog Training': '/icons/therapy.svg',
-    'Group Training': '/icons/group.svg',
-    'Protection Training': '/icons/protection.svg',
-};
-
 /* ===== Helpers ===== */
 function getAllFeaturesArray(mapData) {
     const arr = [];
@@ -129,11 +118,11 @@ function renderStoreList(features, distancesById = null) {
         const town     = f.getProperty('town') || '';
         const slug     = f.getProperty('slug');
         const image    = f.getProperty('profile') || f.getProperty('image') || '';
-        const services = f.getProperty('services') || [];
+        // const services = f.getProperty('services') || [];
         const dObj     = distancesById ? distancesById[id] : null;
 
         return {
-            id, name, town, slug, image, services,
+            id, name, town, slug, image,
             distanceText: dObj?.distanceText || null,
             distanceVal:  dObj?.distanceVal  ?? Number.POSITIVE_INFINITY,
             feature: f
@@ -144,11 +133,6 @@ function renderStoreList(features, distancesById = null) {
 
     container.innerHTML = '';
     rows.forEach(r => {
-        const tagsHtml = r.services.slice(0, 5).map(svc => {
-            const icon = SERVICE_ICONS[svc] ? `<img src="${SERVICE_ICONS[svc]}" alt="" width="14" height="14" style="vertical-align:middle;margin-right:6px">` : '';
-            return `<span class="svc-tag">${icon}${svc}</span>`;
-        }).join('');
-
         const card = document.createElement('div');
         card.className = 'trainer-card shadow-xlarge';
         card.innerHTML = `
@@ -160,7 +144,7 @@ function renderStoreList(features, distancesById = null) {
         <h3 class="trainer-name">${r.name}</h3><div class="trainer-title">SMDT</div>
         </div>
         <div class="text-size-medium">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
-        <div class="trainer-card__services">${tagsHtml}</div>
+        
         <a class="button is-icon max-width-full w-inline-block" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
       </div>
     `;
