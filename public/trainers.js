@@ -98,11 +98,12 @@ function renderStoreList(features, distancesById = null) {
                             <div class="trainer-title">SMDT</div>
                         </div>
                     </div>
-                        <div class="card_location_wrap">
-                            <div>📍</div><div>${r.address || ''}</div>
-                        </div>       
+                        <div class="margin-bottom margin-xxsmall">
+                            <div class="card_location_wrap">
+                                <div>📍</div><div>${r.address || ''}</div>
+                            </div>  
+                        </div>
                 </div>
-                <div class="margin-top margin-small">
                     <div class="button-group">
                         <a data-w-id="9e7c5330-8ec0-ef63-6e62-0181fb9b7027" href="https://smartdogtraining.com/trainers/${r.slug}" class="button is-icon max-width-full w-inline-block">
                             <div>View Trainer</div>
@@ -113,7 +114,6 @@ function renderStoreList(features, distancesById = null) {
                             </div>
                         </a>
                     </div>
-                </div>
                 ${r.distanceText ? `<div class="text-size-small distance-tag">${r.distanceText} away</div>` : ``}
             </div>
         `;
