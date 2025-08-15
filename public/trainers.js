@@ -22,21 +22,16 @@ style.textContent = `
     overflow: hidden;
 }
 
-.shadow-xlarge {
-    box-shadow: 0 24px 48px -12px #0000002e;
-}
-
 .trainer-card__media img,
 .trainer-card__placeholder {
   width: 100%;
   height: 100%;
   object-fit: cover;
   background: #f4f6f8;
+  aspect-ratio: 1;
 }
 
-.trainer-card__body { padding: 14px; }
-.trainer-card__title { margin: 0 0 6px; font-size: 18px; line-height: 1.2; }
-.trainer-card__meta { font-size: 13px; color: #666; margin-bottom: 10px; }
+.trainer-card__body { padding: 24px; }
 
 .trainer-card__services { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
 .svc-tag { font-size: 12px; padding: 4px 8px; border: 1px solid #e6e6e6; border-radius: 999px; background: #fafafa; white-space: nowrap; }
@@ -131,16 +126,16 @@ function renderStoreList(features, distancesById = null) {
         }).join('');
 
         const card = document.createElement('div');
-        card.className = 'location_card shadow-xlarge';
+        card.className = 'trainer-card shadow-xlarge';
         card.innerHTML = `
       <div class="trainer-card__media">
         ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
       </div>
       <div class="trainer-card__body">
-        <h3 class="trainer-card__title">${r.name}</h3>
-        <div class="trainer-card__meta">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
+        <h3 class="heading-style-h5">${r.name}</h3>
+        <div class="text-size-regular">${r.town ? r.town : ''}${r.distanceText ? ` · ${r.distanceText} away` : ''}</div>
         <div class="trainer-card__services">${tagsHtml}</div>
-        <a class="trainer-card__btn" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
+        <a class="button is-icon max-width-full w-inline-block" href="https://smartdogtraining.com/trainers/${r.slug}">View Trainer</a>
       </div>
     `;
         container.appendChild(card);
