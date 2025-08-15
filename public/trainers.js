@@ -3,19 +3,27 @@ const style = document.createElement('style');
 style.textContent = `
   /* Container for the trainer list */
 #store-list {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  margin-top: 16px;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2rem;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-columns: 1fr;
+    display: grid;
 }
 
 .trainer-card {
-  border: 1px solid #eee;
-  border-radius: 14px;
-  background: #fff;
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: 160px auto;
+    border-radius: var(--_radius---large);
+    flex-direction: column;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: 1fr;
+    align-items: stretch;
+    display: flex;
+    overflow: hidden;
+}
+
+.shadow-xlarge {
+    box-shadow: 0 24px 48px -12px #0000002e;
 }
 
 .trainer-card__media img,
@@ -123,7 +131,7 @@ function renderStoreList(features, distancesById = null) {
         }).join('');
 
         const card = document.createElement('div');
-        card.className = 'trainer-card';
+        card.className = 'location_card shadow-xlarge';
         card.innerHTML = `
       <div class="trainer-card__media">
         ${r.image ? `<img src="${r.image}" alt="${r.name}" loading="lazy">` : `<div class="trainer-card__placeholder"></div>`}
