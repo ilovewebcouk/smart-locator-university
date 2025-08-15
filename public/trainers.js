@@ -48,7 +48,7 @@ style.textContent = `
   text-transform: uppercase;
 }
 
-.trainer_name {
+.trainer-name {
   font-family: Rooftop;
   font-size: 1.5rem;
   line-height: 0.8;
