@@ -32,7 +32,7 @@ function buildInfoWindowContent({ name, excerpt, address, imageUrl, slug }) {
         <p style="margin:0 0 8px;font-size:14px;color:#333;">${excerpt || ''}</p>
         <p style="margin:0 0 12px;font-size:12px;color:#555;"><i>${address || ''}</i></p>
         <hr style="border:none;border-top:1px solid #ddd;margin:0 0 8px;">
-        ${imageUrl ? `<img src="${imageUrl}" alt="${name}" style="width:100%;max-height:180px;object-fit:cover;">` : ''}
+        ${imageUrl ? `<img src="${imageUrl}" alt="${name}" style="width:100%;aspect-ratio: 1;object-fit:cover;">` : ''}
       </a>
     </div>`;
 }
