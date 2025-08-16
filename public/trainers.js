@@ -137,7 +137,7 @@ async function initMap() {
             name:    event.feature.getProperty('name'),
             excerpt: event.feature.getProperty('excerpt'),
             address: event.feature.getProperty('address'),
-            imageUrl:event.feature.getProperty('image'),
+            imageUrl: event.feature.getProperty('profile') || event.feature.getProperty('image'),
             slug:    event.feature.getProperty('slug'),
         });
 
